@@ -75,11 +75,7 @@
     </div>
 
     <script>
-        // ========================================== START CODING BELOW!!
-
         // Initialize Firebase
-
-
         const config = {
             apiKey: "AIzaSyCnPj0WOEgDUHXLbpXG9ML6OHXXp2vX_4U",
             authDomain: "bob1-31197.firebaseapp.com",
@@ -96,50 +92,28 @@
 
         var trainData = dataRef.ref('trainData');
 
+        function timeValue(firstTime, tFrequency) {
 
-        // Initial Values
-        var firstTime = "03:30";
+            // First Time (pushed back 1 year to make sure it comes before current time)
+            var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
 
-        // Assumptions
-        var tFrequency = 0;
+            // Current Time
+            var currentTime = moment();
 
-        // train name
-        var tName = "";
+            // Difference between the times
+            var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
 
-        // train Desinsation 
-        var tDestination = "";
+            // Time apart (remainder)
+            var tRemainder = diffTime % tFrequency;
+ 
+            // Minute Until Train
+            return  tFrequency - tRemainder;
 
-        // First Time (pushed back 1 year to make sure it comes before current time)
-        var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
-        console.log(firstTimeConverted);
-
-        // Current Time
-        var currentTime = moment();
-        console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
-
-        // Difference between the times
-        var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-        console.log("DIFFERENCE IN TIME: " + diffTime);
-
-        // Time apart (remainder)
-        var tRemainder = diffTime % tFrequency;
-        console.log(tRemainder);
-
-        // Minute Until Train
-        var tMinutesTillTrain = tFrequency - tRemainder;
-        console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
-
-        // Next Train
-        var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-        console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+        }
 
         // Capture Button Click
         $("#add-train").on("click", function (event) {
             event.preventDefault();
-
-            // YOUR TASK!!!
-            // Code in the logic for storing and retrieving the most recent user.
-            // Don't forget to provide initial data to your Firebase database.
             tname = $("#tName-input").val().trim();
             tDestination = $("#destination-input").val().trim();
             firstTime = $("#firstTime-input").val().trim();
@@ -157,27 +131,20 @@
 
         });
 
-    trainData.on("child_added", function (childSnapshot) {
-    
-    // Log everything that's coming out of snapshot
-    console.log(childSnapshot.val());
-    // Firebase watcher + initial loader HINT: This code behaves similarly to .on("value")
-    console.log(childSnapshot.val().tname);
-    console.log(childSnapshot.val().tDestination);
-    console.log(childSnapshot.val().firstTime);
-    console.log(childSnapshot.val().tFrequency);
+        trainData.on("child_added", function (childSnapshot) {
 
-    var tr = $("<tr>");
-    tr.append("<td>" + childSnapshot.val().tname + "</td>");
-    tr.append("<td>" + childSnapshot.val().tDestination + "</td>");
-    tr.append("<td>" + childSnapshot.val().firstTime + "</td>");
-    tr.append("<td>" + childSnapshot.val().tFrequency + "</td>");
-    $("#member-list").append(tr);
+            var tr = $("<tr>");
+            tr.append("<td>" + childSnapshot.val().tname + "</td>");
+            tr.append("<td>" + childSnapshot.val().tDestination + "</td>");
+            tr.append("<td>" + childSnapshot.val().tFrequency + "</td>");
+            tr.append("<td>" + moment(moment().add(timeValue(childSnapshot.val().firstTime, childSnapshot.val().tFrequency), "minutes")).format("hh:mm A") + "</td>");
+            tr.append("<td>" + timeValue(childSnapshot.val().firstTime, childSnapshot.val().tFrequency) + "</td>");
+            $("#member-list").append(tr);
 
-     // Handle the errors
-}, function (errorObject) {
-    console.log("Errors handled: " + errorObject.code);
-});
+            // Handle the errors
+        }, function (errorObject) {
+            console.log("Errors handled: " + errorObject.code);
+        });
 
 
     </script>
