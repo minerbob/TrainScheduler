@@ -1,6 +1,11 @@
 // Initialize Firebase
 
-const config = {
+
+
+
+ // Initialize Firebase
+
+ const config = {
     apiKey: "AIzaSyCnPj0WOEgDUHXLbpXG9ML6OHXXp2vX_4U",
     authDomain: "bob1-31197.firebaseapp.com",
     databaseURL: "https://bob1-31197.firebaseio.com",
@@ -60,7 +65,7 @@ $("#add-train").on("click", function (event) {
     // YOUR TASK!!!
     // Code in the logic for storing and retrieving the most recent user.
     // Don't forget to provide initial data to your Firebase database.
-    tname = $("#name-input").val().trim();
+    tname = $("#tName-input").val().trim();
     tDestination = $("#destination-input").val().trim();
     firstTime = $("#firstTime-input").val().trim();
     tFrequency = $("frequency-input").val().trim();
