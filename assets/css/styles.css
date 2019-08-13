@@ -1,0 +1,22 @@
+
+
+.form-inline label {
+    display: inline-block;
+  }
+
+  .form-inline input {
+    display: inline-block;
+  }
+ 
+  .form-inline button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: dodgerblue;
+    border: 1px solid #ddd;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .form-inline button:hover {
+    background-color: royalblue;
+  }

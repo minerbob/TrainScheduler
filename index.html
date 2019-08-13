@@ -6,10 +6,18 @@
     <title>Train Schedular</title>
 
 
+    <!--Link CSS and Reset-->
+    <link rel="stylesheet" type="text/css" href="reset.css">
+    <link rel="stylesheet" type="text/css" href=".\assets\css\styles.css">
+
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <!-- <script type="text/javascript" src=".\assets\javascript\javascript.js"></script>-->
     <!-- Firebase References -->
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
@@ -28,51 +36,59 @@
         </div>
     </div>
 
+
     <div class="container">
-        <h2>Train Schedule</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Train Name</th>
-                    <th>Destination</th>
-                    <th>Frequency</th>
-                    <th>Next Arrival</th>
-                    <th>Minutes Away</th>
-                </tr>
-            </thead>
-            <tbody id="member-list">
-                <tr>
-                    <td>Choo Choo</td>
-                    <td>Denver</td>
-                    <td>2</td>
-                    <td>5:00pm</td>
-                    <td>2</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="panel-group">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-left">Current Train Schedule</div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Train Name</th>
+                            <th>Destination</th>
+                            <th>Frequency</th>
+                            <th>Next Arrival</th>
+                            <th>Minutes Away</th>
+                        </tr>
+                    </thead>
+                    <tbody id="member-list">
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+
+
     <div class="container">
-        <form role="form">
-            <div class="form-group row">
-                <label for="name-input">Train Name:</label>
-                <input class="form-control" id="tName-input" type="text">
+        <div class="panel-group">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-left">Add Train</div>
+                <form role="form" class="form-inline">
+                    <div class="form-group row">
+                        <label>Train Name:</label>
+                        <input class="form-control" id="tName-input" type="text">
+
+                        <label>Destination:</label>
+                        <input class="form-control" id="destination-input" type="text">
+
+                        <label>First Train Time (HH:mm - Milatary Time</label>
+                        <input class="form-control" id="firstTime-input" type="text">
+
+                        <label>Frequency:</label>
+                        <input class="form-control" id="frequency-input" type="text">
+                        <br>
+                        <div class="form-group row">
+                            <button class="btn btn-blue" id="add-train" type="submit">Submit</button>
+                        </div>
+                </form>
+
             </div>
-            <div class="form-group row">
-                <label for="email-input">Destination:</label>
-                <input class="form-control" id="destination-input" type="text">
-            </div>
-            <div class="form-group row">
-                <label for="email-input">First Train Time (HH:mm - Milatary Time</label>
-                <input class="form-control" id="firstTime-input" type="text">
-            </div>
-            <div class="form-group row">
-                <label for="email-input">Frequency:</label>
-                <input class="form-control" id="frequency-input" type="text">
-            </div>
+        </div>
     </div>
-    <button class="btn btn-default" id="add-train" type="submit">Submit</button>
-    </form>
-    </div>
+
+
+
+
 
     <script>
         // Initialize Firebase
@@ -105,9 +121,9 @@
 
             // Time apart (remainder)
             var tRemainder = diffTime % tFrequency;
- 
+
             // Minute Until Train
-            return  tFrequency - tRemainder;
+            return tFrequency - tRemainder;
 
         }
 
@@ -148,6 +164,9 @@
 
 
     </script>
+
+
+
 
 
 </body>
