@@ -7,17 +7,23 @@
 
 
     <!--Link CSS and Reset-->
-    <link rel="stylesheet" type="text/css" href="reset.css">
+    <link rel="stylesheet" type="text/css" href=".\assets\css\reset.css">
     <link rel="stylesheet" type="text/css" href=".\assets\css\styles.css">
 
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery.js"></script>
+
+    <!--javascript-->
+    <script type="text/javascript" src=".\assets\javascript\javascript.js"></script>
+
+    <!--bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+
+
     <!-- <script type="text/javascript" src=".\assets\javascript\javascript.js"></script>-->
     <!-- Firebase References -->
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
@@ -60,110 +66,31 @@
 
 
     <div class="container">
-        <div class="panel-group">
-            <div class="panel panel-primary">
-                <div class="panel-heading text-left">Add Train</div>
-                <form role="form" class="form-inline">
-                    <div class="form-group row">
-                        <label>Train Name:</label>
-                        <input class="form-control" id="tName-input" type="text">
-
-                        <label>Destination:</label>
-                        <input class="form-control" id="destination-input" type="text">
-
-                        <label>First Train Time (HH:mm - Milatary Time</label>
-                        <input class="form-control" id="firstTime-input" type="text">
-
-                        <label>Frequency:</label>
-                        <input class="form-control" id="frequency-input" type="text">
-                        <br>
-                        <div class="form-group row">
-                            <button class="btn btn-blue" id="add-train" type="submit">Submit</button>
-                        </div>
-                </form>
-
+        <div class="row">
+            <div class="col-sm-12">
+            <div class="panel-group">
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-left">Add Train</div>
+                    <div class="panel-body">
+                        <form role="form">
+                            <div class="form-group row">
+                                <label>Train Name:</label>
+                                <input class="form-control" id="tName-input" type="text">
+                                <label>Destination:</label>
+                                <input class="form-control" id="destination-input" type="text">
+                                <label>First Train Time (HH:mm - Milatary Time</label>
+                                <input class="form-control" id="firstTime-input" type="text">
+                                <label>Frequency:</label>
+                                <input class="form-control" id="frequency-input" type="text">
+                                <button clFass="btn btn-blue" id="add-train" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-
-
-
-
-    <script>
-        // Initialize Firebase
-        const config = {
-            apiKey: "AIzaSyCnPj0WOEgDUHXLbpXG9ML6OHXXp2vX_4U",
-            authDomain: "bob1-31197.firebaseapp.com",
-            databaseURL: "https://bob1-31197.firebaseio.com",
-            projectId: "bob1-31197",
-            storageBucket: "",
-            messagingSenderId: "580808993373",
-            appId: "1:580808993373:web:7b72705b758e6415"
-        };
-
-        firebase.initializeApp(config);
-
-        var dataRef = firebase.database();
-
-        var trainData = dataRef.ref('trainData');
-
-        function timeValue(firstTime, tFrequency) {
-
-            // First Time (pushed back 1 year to make sure it comes before current time)
-            var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
-
-            // Current Time
-            var currentTime = moment();
-
-            // Difference between the times
-            var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-
-            // Time apart (remainder)
-            var tRemainder = diffTime % tFrequency;
-
-            // Minute Until Train
-            return tFrequency - tRemainder;
-
-        }
-
-        // Capture Button Click
-        $("#add-train").on("click", function (event) {
-            event.preventDefault();
-            tname = $("#tName-input").val().trim();
-            tDestination = $("#destination-input").val().trim();
-            firstTime = $("#firstTime-input").val().trim();
-            tFrequency = $("#frequency-input").val().trim();
-
-            // Code for the train data
-            trainData.push({
-                tname: tname,
-                tDestination: tDestination,
-                firstTime: firstTime,
-                tFrequency: tFrequency
-            });
-
-
-
-        });
-
-        trainData.on("child_added", function (childSnapshot) {
-
-            var tr = $("<tr>");
-            tr.append("<td>" + childSnapshot.val().tname + "</td>");
-            tr.append("<td>" + childSnapshot.val().tDestination + "</td>");
-            tr.append("<td>" + childSnapshot.val().tFrequency + "</td>");
-            tr.append("<td>" + moment(moment().add(timeValue(childSnapshot.val().firstTime, childSnapshot.val().tFrequency), "minutes")).format("hh:mm A") + "</td>");
-            tr.append("<td>" + timeValue(childSnapshot.val().firstTime, childSnapshot.val().tFrequency) + "</td>");
-            $("#member-list").append(tr);
-
-            // Handle the errors
-        }, function (errorObject) {
-            console.log("Errors handled: " + errorObject.code);
-        });
-
-
-    </script>
 
 
 

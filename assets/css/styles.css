@@ -8,8 +8,7 @@
     display: inline-block;
   }
  
-  .form-inline button {
-    display: inline-block;
+  #add-train {
     padding: 10px 20px;
     background-color: dodgerblue;
     border: 1px solid #ddd;
@@ -17,6 +16,6 @@
     cursor: pointer;
   }
   
-  .form-inline button:hover {
+  .button:hover {
     background-color: royalblue;
   }
